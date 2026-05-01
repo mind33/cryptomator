@@ -223,8 +223,15 @@ jobs:
       - name: Extract wixhelper.dll for Codesigning #see https://github.com/cryptomator/cryptomator/issues/3130
         shell: pwsh
         run: |
+          curl --silent --fail-with-body --proto "=https" -L "${{ env.OPENJDK_JMODS_AMD64 }}" --output openjdk-jmods.zip
+          if(!(Get-FileHash -Path openjdk-jmods.zip -Algorithm SHA256).Hash.ToLower().equals("${{ env.OPENJDK_JMODS_AMD64_HASH }}")) {
+            throw "Wrong checksum of JMOD archive downloaded from ${{ env.OPENJDK_JMODS_AMD64 }}.";
+          }
+          Expand-Archive -Path openjdk-jmods.zip -DestinationPath openjdk-jmods
+          Get-ChildItem -Path openjdk-jmods -Recurse -Filter "*.jmod" | ForEach-Object { Move-Item -Path $_ -Destination $_.Directory.Parent}
+          
           New-Item -Path appdir/jpackage-jmod -ItemType Directory
-          & $env:JAVA_HOME\bin\jmod.exe extract --dir jpackage-jmod "${env:JAVA_HOME}\jmods\jdk.jpackage.jmod"
+          & $env:JAVA_HOME\bin\jmod.exe extract --dir jpackage-jmod "openjdk-jmods\jdk.jpackage.jmod"
           Get-ChildItem -Recurse -Path "jpackage-jmod" -File wixhelper.dll | Select-Object -Last 1 | Copy-Item -Destination "appdir"
       - name: Sign DLLs with Azure Trusted Signing
         if: inputs.sign || github.event_name == 'schedule'
