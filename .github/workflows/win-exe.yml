@@ -60,6 +60,8 @@ env:
   VERSION_NUM: ${{ inputs.semVerNum || '99.99.99'}}
   REVISION_NUM: ${{ inputs.revisionNum || '0' }}
   VERSION_SUFFIX: ${{ inputs.semVerSuffix || ''}}
+  OPENJDK_JMODS_AMD64: 'https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%2B10/OpenJDK25U-jmods_x64_windows_hotspot_25.0.2_10.zip'
+  OPENJDK_JMODS_AMD64_HASH: 'a28a3c75911d8f5a02571e46a1859aec2e172a4829bf6e9a89715c882a853d77'
   OPENJFX_JMODS_AMD64: 'https://download2.gluonhq.com/openjfx/25.0.2/openjfx-25.0.2_windows-x64_bin-jmods.zip'
   OPENJFX_JMODS_AMD64_HASH: '33d878dfac85590c4d77c518ed413e512d34a8479d90132b230a7ddd173576b3'
   WINFSP_MSI: 'https://github.com/winfsp/winfsp/releases/download/v2.1/winfsp-2.1.25156.msi'
