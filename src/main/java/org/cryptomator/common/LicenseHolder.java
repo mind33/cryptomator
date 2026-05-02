@@ -1,7 +1,5 @@
 package org.cryptomator.common;
 
-import org.cryptomator.common.settings.Settings;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javafx.beans.binding.Bindings;
@@ -15,7 +13,7 @@ public class LicenseHolder {
 	private final BooleanBinding validLicenseProperty;
 
 	@Inject
-	public LicenseHolder(@SuppressWarnings("unused") LicenseChecker licenseChecker, @SuppressWarnings("unused") Settings settings) {
+	public LicenseHolder() {
 		this.validLicenseProperty = Bindings.createBooleanBinding(() -> true);
 	}
 
@@ -30,11 +28,11 @@ public class LicenseHolder {
 	}
 
 	public ObservableValue<String> licenseSubjectProperty() {
-		return Bindings.createStringBinding(() -> null);
+		return Bindings.createStringBinding(() -> "");
 	}
 
 	public String getLicenseSubject() {
-		return null;
+		return "";
 	}
 
 	public BooleanBinding validLicenseProperty() {
